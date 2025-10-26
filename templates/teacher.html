@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login / Signup - ProjectEase</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+  /* ===== NEON OASIS THEME VARIABLES ===== */
+  :root {
+    --bg-dark: #0a0f24;
+    --bg-panel: #111733;
+    --text-primary: #e9f5ff;
+    --text-muted: #9bd4ff;
+    --neon-blue: #00eaff;
+    --neon-pink: #ff00ff;
+    --neon-purple: #8a2be2;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  body {
+    background: radial-gradient(circle at top left, var(--neon-purple), var(--bg-dark) 60%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--text-primary);
+  }
+
+  .container {
+    position: relative;
+    width: 850px;
+    height: 500px;
+    background: var(--bg-panel);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.3);
+    transition: 0.6s ease-in-out;
+  }
+
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+  }
+
+  .sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+  }
+
+  .container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s forwards;
+  }
+
+  @keyframes show {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  form {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  form h1 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+  }
+
+  input, select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--neon-blue);
+    color: var(--text-primary);
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s ease;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--neon-pink);
+    box-shadow: 0 0 8px var(--neon-pink);
+    outline: none;
+  }
+
+  button {
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 45px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.4s ease;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+  }
+
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.6);
+  }
+
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+  }
+
+  .container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+  }
+
+  .overlay {
+    background: linear-gradient(to right, var(--neon-purple), var(--neon-blue));
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+    display: flex;
+  }
+
+  .container.right-panel-active .overlay {
+    transform: translateX(50%);
+  }
+
+  .overlay-panel {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .overlay-left {
+    transform: translateX(-20%);
+  }
+
+  .container.right-panel-active .overlay-left {
+    transform: translateX(0);
+  }
+
+  .overlay-right {
+    right: 0;
+    transform: translateX(0);
+  }
+
+  .container.right-panel-active .overlay-right {
+    transform: translateX(20%);
+  }
+
+  .overlay h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-primary);
+    text-shadow: 0 0 8px var(--neon-blue);
+  }
+
+  .overlay p {
+    font-size: 14px;
+    margin: 20px 0 30px;
+    color: var(--text-muted);
+  }
+
+  .ghost {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: var(--text-primary);
+    transition: 0.3s ease;
+  }
+
+  .ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px var(--neon-pink);
+  }
+
+  .error-message {
+    color: #ff3b3b;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  select {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="/" method="POST">
+      <input type="hidden" name="form_type" value="signup" />
+      <h1>Create Account</h1>
+
+      {% if error and form_type == 'signup' %}
+      <p class="error-message">{{ error }}</p>
+      {% endif %}
+
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+
+      <select name="role">
+        <option value="student" selected>Student</option>
+        <option value="teacher">Teacher</option>
+      </select>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <div class="form-container sign-in-container">
+    <form action="/" method="POST">
+      <input type="hidden" name="form_type" value="login" />
+      <h1>Welcome</h1>
+
+      {% if error and form_type == 'login' %}
+      <p class="error-message">{{ error }}</p>
+      {% endif %}
+
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>Please login with your details</p>
+        <button class="ghost" id="signIn">Sign In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Welcome!</h1>
+        <p>Enter your details and start your journey</p>
+        <button class="ghost" id="signUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const signUpButton = document.getElementById('signUp');
+  const signInButton = document.getElementById('signIn');
+  const container = document.getElementById('container');
+
+  function clearFormInputs() {
+    container.querySelectorAll('input[type="text"], input[type="password"]').forEach(input => input.value = '');
+    container.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+  }
+
+  signUpButton.addEventListener('click', () => {
+    clearFormInputs();
+    container.classList.add("right-panel-active");
+  });
+
+  signInButton.addEventListener('click', () => {
+    clearFormInputs();
+    container.classList.remove("right-panel-active");
+  });
+
+  // Automatically open signup if redirected from signup form error
+  {% if form_type == 'signup' %}
+  container.classList.add("right-panel-active");
+  {% endif %}
+</script>
+
+</body>
+</html>

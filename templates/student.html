@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard — Project Ease</title>
+
+  <style>
+    /* ===== NEON OASIS THEME ===== */
+    :root {
+      --bg-dark: #0a0f24;
+      --bg-panel: #111733;
+      --text-primary: #e9f5ff;
+      --text-muted: #9bd4ff;
+      --neon-blue: #00eaff;
+      --neon-pink: #ff00ff;
+      --neon-purple: #8a2be2;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ===== HEADER / LOGO ===== */
+    .header {
+      background: var(--bg-panel);
+      padding: 25px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 18px rgba(0, 234, 255, 0.3);
+      border-bottom: 1px solid rgba(0, 234, 255, 0.25);
+    }
+
+    .header h2 {
+      margin: 0;
+      font-size: 28px;
+      color: var(--neon-blue);
+      text-shadow: 0 0 12px var(--neon-blue);
+      font-weight: 600;
+    }
+
+    .logout-btn {
+      background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+      padding: 12px 30px;
+      border-radius: 10px;
+      border: none;
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 18px var(--neon-blue);
+    }
+
+    .logout-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px var(--neon-pink);
+    }
+
+    /* ===== MAIN PANEL ===== */
+    .container {
+      width: 85%;
+      margin: 60px auto;
+      background: var(--bg-panel);
+      border-radius: 18px;
+      padding: 45px;
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.18);
+      border: 1px solid rgba(0, 234, 255, 0.25);
+    }
+
+    h3 {
+      font-size: 24px;
+      color: var(--neon-blue);
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px var(--neon-blue);
+    }
+
+    p { color: var(--text-muted); }
+
+    /* ===== FORM ===== */
+    form {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 234, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    input[type="file"] {
+      padding: 12px;
+      background: #0f1633;
+      border: 1px solid var(--neon-blue);
+      border-radius: 8px;
+      color: var(--text-primary);
+    }
+
+    button {
+      background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      color: #000;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      width: fit-content;
+      transition: 0.3s ease;
+      box-shadow: 0 0 20px var(--neon-blue);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 28px var(--neon-pink);
+    }
+
+    /* ===== STATUS ===== */
+    .status-message {
+      background: rgba(0, 234, 255, 0.08);
+      padding: 15px;
+      border-left: 6px solid var(--neon-blue);
+      border-radius: 10px;
+      margin-top: 25px;
+      font-weight: 500;
+      color: var(--neon-blue);
+    }
+
+    /* ===== SUBMISSION CARDS ===== */
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-top: 25px;
+    }
+
+    .file-card {
+      background: #101832;
+      padding: 25px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 234, 255, 0.25);
+      box-shadow: 0 0 18px rgba(0, 234, 255, 0.12);
+      transition: 0.35s ease;
+    }
+
+    .file-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.4);
+    }
+
+    .file-card h4 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: var(--neon-blue);
+      text-shadow: 0 0 12px var(--neon-blue);
+    }
+
+    .status-received { color: #39ff14; }
+    .status-awaiting { color: var(--neon-pink); }
+
+    .feedback {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid var(--neon-blue);
+      padding: 14px;
+      border-radius: 10px;
+      margin-top: 12px;
+      color: var(--text-primary);
+    }
+
+    .no-files {
+      background: rgba(255, 0, 0, 0.1);
+      border-left: 6px solid var(--neon-pink);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 25px;
+      color: var(--neon-pink);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 45px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>PROJECT EASE — Student Dashboard</h2>
+    <a href="{{ url_for('logout') }}" class="logout-btn">LOGOUT</a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="container">
+
+    <h3>Submit Your Project</h3>
+
+    <p><strong>Required Format:</strong>
+      {% if required_extension %} {{ required_extension | upper }}
+      {% else %} ANY FILE TYPE {% endif %}
+    </p>
+
+    <p><strong>Required Keywords:</strong>
+      {% if teacher_conditions %} {{ teacher_conditions | join(', ') }}
+      {% else %} NONE SET
+      {% endif %}
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+      <label><strong>Select File:</strong></label>
+      <input type="file" name="file" required>
+      <button type="submit">UPLOAD & VERIFY</button>
+    </form>
+
+    {% if status %}
+      <div class="status-message">Upload Status: {{ status }}</div>
+    {% endif %}
+
+    <h3>My Submissions</h3>
+
+    {% if files %}
+      <div class="card-container">
+        {% for file_doc in files %}
+          <div class="file-card">
+            <h4>{{ file_doc.filename }}</h4>
+            <div class="status {% if file_doc.status == 'Feedback Received' %}status-received{% else %}status-awaiting{% endif %}">
+              {{ file_doc.status }}
+            </div>
+            <div class="feedback">{{ file_doc.feedback }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="no-files">You have no submissions yet.</div>
+    {% endif %}
+
+    <footer>
+      © 2025 PROJECT EASE — Document Submission Portal
+    </footer>
+  </div>
+
+</body>
+</html>
